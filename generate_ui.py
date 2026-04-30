@@ -8,9 +8,10 @@ load_dotenv()
 print("Initializing RAG Pipeline...")
 pipeline = RAGPipeline()
 
-# Check if we already built the models
-if not os.path.exists("saved_pipeline"):
-    print("Pre-trained models not found. Building from scratch... (This will take a few minutes)")
+# Check if we already built the models completely
+faiss_path = os.path.join("saved_pipeline", "faiss_index", "index.faiss")
+if not os.path.exists(faiss_path):
+    print("Pre-trained models missing or incomplete. Building from scratch... (This will take a few minutes)")
     pipeline.build_and_save(pdf_path="ncert-9-1-30.pdf", save_dir="saved_pipeline")
 else:
     print("Pre-trained models found! Loading instantly...")

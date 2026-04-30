@@ -7,6 +7,7 @@ from .embeddings import get_vector_retriever, save_vector_store, load_vector_ret
 from .comparison import get_hybrid_retriever, compare_without_reranker
 from .reranker import rerank_documents
 from .sorting import filter_positive_scores
+from .llm import generate_guardrailed_answer
 
 class RAGPipeline:
     def __init__(self):
@@ -57,14 +58,39 @@ class RAGPipeline:
         scored_docs = self.query_with_reranker(query)
         return filter_positive_scores(scored_docs, top_k=3)
 
+    def generate_final_answer(self, query: str):
+        """
+        Retrieves the best context and uses Gemini to generate a guardrailed answer.
+        """
+        scored_docs = self.query_with_positive_scores_sorting(query)
+        answer = generate_guardrailed_answer(query, scored_docs)
+        return answer, scored_docs
+
 # -------------------------------------------------------------
-# Single Function As Requested
+# Single Functions As Requested
 # -------------------------------------------------------------
 def get_results_fast(query: str, save_dir="saved_pipeline"):
     """
-    A single function to get results instantly without re-running the pipeline.
-    Assumes `build_and_save` has already been run once.
+    A single function to get retrieval results instantly without re-running the pipeline.
     """
     pipeline = RAGPipeline()
-    pipeline.load_pipeline(save_dir)
+    faiss_path = os.path.join(save_dir, "faiss_index", "index.faiss")
+    if not os.path.exists(faiss_path):
+        print("Cached pipeline is missing or incomplete. Rebuilding from scratch...")
+        pipeline.build_and_save("ncert-9-1-30.pdf", save_dir)
+    else:
+        pipeline.load_pipeline(save_dir)
     return pipeline.query_with_positive_scores_sorting(query)
+
+def get_answer_fast(query: str, save_dir="saved_pipeline"):
+    """
+    A single function to instantly get a final Guardrailed LLM Answer based on pre-trained embeddings.
+    """
+    pipeline = RAGPipeline()
+    faiss_path = os.path.join(save_dir, "faiss_index", "index.faiss")
+    if not os.path.exists(faiss_path):
+        print("Cached pipeline is missing or incomplete. Rebuilding from scratch...")
+        pipeline.build_and_save("ncert-9-1-30.pdf", save_dir)
+    else:
+        pipeline.load_pipeline(save_dir)
+    return pipeline.generate_final_answer(query)

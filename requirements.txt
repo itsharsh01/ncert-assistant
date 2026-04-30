@@ -7,3 +7,5 @@ langchain-classic
 sentence-transformers
 rank-bm25
 python-dotenv
+faiss-cpu
+google-generativeai
