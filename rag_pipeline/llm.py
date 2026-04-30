@@ -23,7 +23,7 @@ def generate_guardrailed_answer(query: str, retrieved_docs) -> str:
     context_text = "\n\n---\n\n".join(context_parts)
     
     if not context_text.strip():
-         return "I could not find relevant information in the textbook to answer your question."
+         return "I don't know."
 
     prompt = f"""You are a strict, helpful educational assistant specifically built to answer student questions based on the NCERT textbook.
 You must answer the user's question using ONLY the provided textbook context below.
