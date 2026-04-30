@@ -1,0 +1,9 @@
+langchain_opendataloader_pdf
+llama-parse
+langchain-text-splitters
+langchain-community
+langchain-huggingface
+langchain-classic
+sentence-transformers
+rank-bm25
+python-dotenv

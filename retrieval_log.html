@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NCERT Assistant Results</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --bg-color: #0b1120;
+        --card-bg: rgba(30, 41, 59, 0.4);
+        --text-main: #f8fafc;
+        --text-muted: #94a3b8;
+        --accent: #6366f1;
+        --accent-hover: #4f46e5;
+        --tab-bg: rgba(255,255,255,0.03);
+        --border: rgba(255,255,255,0.08);
+    }
+    body {
+        font-family: 'Inter', sans-serif;
+        background: var(--bg-color);
+        background-image: 
+            radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.15), transparent 25%),
+            radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.15), transparent 25%);
+        color: var(--text-main);
+        margin: 0;
+        padding: 50px 20px;
+        min-height: 100vh;
+    }
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    h1 {
+        font-weight: 700;
+        font-size: 3rem;
+        background: linear-gradient(135deg, #818cf8, #c084fc, #f472b6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+        letter-spacing: -1px;
+    }
+    .query-box {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 25px 30px;
+        margin-bottom: 40px;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
+        position: relative;
+        overflow: hidden;
+    }
+    .query-box::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; width: 4px; height: 100%;
+        background: linear-gradient(to bottom, #818cf8, #f472b6);
+    }
+    .query-box h3 { margin-top: 0; color: #cbd5e1; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; margin-bottom: 10px; }
+    .query-box p { font-size: 1.35rem; margin: 0; font-weight: 300; line-height: 1.5; color: #fff; }
+    
+    .section {
+        background: var(--card-bg);
+        border-radius: 16px;
+        padding: 30px;
+        margin-bottom: 40px;
+        border: 1px solid var(--border);
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+    .section h2 {
+        margin-top: 0;
+        font-size: 1.4rem;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 15px;
+        margin-bottom: 25px;
+        color: #e2e8f0;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .section h2 span.icon {
+        background: rgba(99, 102, 241, 0.2);
+        color: #818cf8;
+        width: 32px; height: 32px;
+        display: flex; align-items: center; justify-content: center;
+        border-radius: 8px; font-size: 0.9rem; font-weight: 700;
+    }
+    
+    .tab-nav {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 25px;
+        overflow-x: auto;
+        padding-bottom: 5px;
+    }
+    .tab-btn {
+        background: var(--tab-bg);
+        border: 1px solid var(--border);
+        color: var(--text-muted);
+        padding: 12px 20px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 0.95rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .tab-btn:hover {
+        background: rgba(255,255,255,0.08);
+        color: var(--text-main);
+        transform: translateY(-2px);
+    }
+    .tab-btn.active {
+        background: var(--accent);
+        color: white;
+        border-color: var(--accent-hover);
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+    }
+    .score {
+        background: rgba(0,0,0,0.3);
+        padding: 3px 8px;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+    }
+    .tab-btn.active .score { background: rgba(0,0,0,0.2); }
+    
+    .tab-content {
+        display: none;
+        animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        line-height: 1.8;
+        color: #cbd5e1;
+        background: rgba(0,0,0,0.25);
+        padding: 30px;
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.03);
+        font-size: 1.05rem;
+    }
+    .tab-content.active {
+        display: block;
+    }
+    
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Scrollbar styling */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Intelligence Results</h1>
+        <p style="color: var(--text-muted); font-size: 1.1rem;">RAG Pipeline Retrieval Methodologies Comparison</p>
+    </header>
+
+    <div class="query-box">
+        <h3>User Query</h3>
+        <p>"What is the difference between homogeneous and heterogeneous mixtures?"</p>
+    </div>
+
+    <div class="section">
+        <h2><span class="icon">1</span> Hybrid Comparison (BM25 + Vectors)</h2>
+        <div class="tab-nav"><button class="tab-btn active" onclick="openTab(event, 'sec1-tab0')">Result 1</button><button class="tab-btn " onclick="openTab(event, 'sec1-tab1')">Result 2</button><button class="tab-btn " onclick="openTab(event, 'sec1-tab2')">Result 3</button><button class="tab-btn " onclick="openTab(event, 'sec1-tab3')">Result 4</button><button class="tab-btn " onclick="openTab(event, 'sec1-tab4')">Result 5</button><button class="tab-btn " onclick="openTab(event, 'sec1-tab5')">Result 6</button><button class="tab-btn " onclick="openTab(event, 'sec1-tab6')">Result 7</button><button class="tab-btn " onclick="openTab(event, 'sec1-tab7')">Result 8</button></div><div class="tab-container"><div id="sec1-tab0" class="tab-content active"><p>dissolved in water. Compare the colour of the solutions of the two groups. Though both the groups have obtained copper sulphate solution but the intensity of colour of the solutions is different. This shows that a homogeneous mixture can have a variable composition.  <br>Groups C and D have obtained mixtures, which contain physically distinct parts and have non-uniform compositions. Such mixtures are called heterogeneous mixtures. Mixtures of sodium chloride and iron filings, salt and sulphur, and oil and water are examples of heterogeneous mixtures.  <br>Now, we shall learn about solutions, suspensions and colloidal solutions in the following sections.</p></div><div id="sec1-tab1" class="tab-content "><p># Questions  <br>1. Differentiate between homogeneous and heterogeneous mixtures with examples.<br>2. How are sol, solution and suspension different from each other?<br>3. To make a saturated solution, 36 g of sodium chloride is dissolved in 100 g of water at 293 K. Find its concentration at this temperature.</p></div><div id="sec1-tab2" class="tab-content "><p># 2.1 What is a Mixture?  <br>Mixtures are constituted by more than one kind of pure form of matter. We know that dissolved sodium chloride can be separated from water by the physical process of evaporation.  <br>Activity ______________ 2.1  <br>- Let us divide the class into groups A, B, C and D.<br>- Group A takes a beaker containing 50 mL of water and one spatula full of copper sulphate powder. Group B takes 50 mL of water and two spatula full of copper sulphate powder in a beaker.<br>- Groups C and D can take different amounts of copper sulphate and potassium permanganate or common salt (sodium chloride) and mix the given components to form a mixture.<br>- Report the observations on the uniformity in colour and texture.  <br>Groups A and B have obtained a mixture which has a uniform composition throughout. Such mixtures are called homogeneous mixtures or solutions. Some other examples of such mixtures are: (i) salt dissolved in water and (ii) sugar.</p></div><div id="sec1-tab3" class="tab-content "><p># 2.2 What is a Solution?  <br>A solution is a homogeneous mixture of two or more substances. You come across various types of solutions in your daily life. Lemonade, soda water etc. are all examples of solutions. Usually we think of a solution as a liquid that contains either a solid, liquid or a gas dissolved in it. But, we can also have solid solutions (alloys) and gaseous solutions (air).  <br>In a solution there is homogeneity at the particle level. For example, lemonade tastes the same throughout. This shows that particles of sugar or salt are evenly distributed in the solution.  <br>Alloys: Alloys are mixtures of two or more metals or a metal and a non-metal and cannot be separated into their components by physical methods. But still, an alloy is considered as a mixture because it shows the properties of its constituents and can have variable composition. For example, brass is a mixture of approximately 30% zinc and 70% copper.</p></div><div id="sec1-tab4" class="tab-content "><p># 2.3 Separating the Components of a Mixture  <br>We have learnt that most of the natural substances are not chemically pure. Different methods of separation are used to get individual components from a mixture. Separation makes it possible to study and use the individual components of a mixture.  <br>Heterogeneous mixtures can be separated into their respective constituents by simple physical methods like handpicking, sieving, filtration that we use in our day-to-day life. Sometimes special techniques have to be used for the separation of the components of a mixture.</p></div><div id="sec1-tab5" class="tab-content "><p># 1.4.2 EFFECT OF CHANGE OF PRESSURE  <br>We have already learnt that the difference in various states of matter is due to the difference in the distances between the constituent particles. What will happen when we start putting pressure and compress a gas?  <br>Thus, we can say that pressure and temperature determine the state of a substance, whether it will be solid, liquid or gas.</p></div><div id="sec1-tab6" class="tab-content "><p># 2.2.2 What is a suspension?  <br>Non-homogeneous systems, like those obtained by group C in activity 2.2, in which solids are dispersed in liquids, are called suspensions. A suspension is a heterogeneous mixture in which the solute particles do not dissolve but remain suspended throughout the bulk of the medium. Particles of a suspension are visible to the naked eye.</p></div><div id="sec1-tab7" class="tab-content "><p># Activity ______________ 1.8  <br>Take some water in a container, try cutting the surface of water with your fingers.  <br>Were you able to cut the surface of water? What could be the reason behind the surface of water remaining together?  <br>The above three activities (1.6, 1.7 and 1.8) suggest that particles of matter have force acting between them. This force keeps the particles together. The strength of this force of attraction varies from one kind of matter to another.</p></div></div>
+    </div>
+
+    <div class="section">
+        <h2><span class="icon">2</span> Cross-Encoder Re-ranker</h2>
+        <div class="tab-nav"><button class="tab-btn active" onclick="openTab(event, 'sec2-tab0')">Result 1 <span class='score'>Score: 5.750</span></button><button class="tab-btn " onclick="openTab(event, 'sec2-tab1')">Result 2 <span class='score'>Score: 3.870</span></button><button class="tab-btn " onclick="openTab(event, 'sec2-tab2')">Result 3 <span class='score'>Score: 1.939</span></button><button class="tab-btn " onclick="openTab(event, 'sec2-tab3')">Result 4 <span class='score'>Score: 0.831</span></button><button class="tab-btn " onclick="openTab(event, 'sec2-tab4')">Result 5 <span class='score'>Score: -0.196</span></button><button class="tab-btn " onclick="openTab(event, 'sec2-tab5')">Result 6 <span class='score'>Score: -3.382</span></button><button class="tab-btn " onclick="openTab(event, 'sec2-tab6')">Result 7 <span class='score'>Score: -10.079</span></button><button class="tab-btn " onclick="openTab(event, 'sec2-tab7')">Result 8 <span class='score'>Score: -11.184</span></button></div><div class="tab-container"><div id="sec2-tab0" class="tab-content active"><p>dissolved in water. Compare the colour of the solutions of the two groups. Though both the groups have obtained copper sulphate solution but the intensity of colour of the solutions is different. This shows that a homogeneous mixture can have a variable composition.  <br>Groups C and D have obtained mixtures, which contain physically distinct parts and have non-uniform compositions. Such mixtures are called heterogeneous mixtures. Mixtures of sodium chloride and iron filings, salt and sulphur, and oil and water are examples of heterogeneous mixtures.  <br>Now, we shall learn about solutions, suspensions and colloidal solutions in the following sections.</p></div><div id="sec2-tab1" class="tab-content "><p># Questions  <br>1. Differentiate between homogeneous and heterogeneous mixtures with examples.<br>2. How are sol, solution and suspension different from each other?<br>3. To make a saturated solution, 36 g of sodium chloride is dissolved in 100 g of water at 293 K. Find its concentration at this temperature.</p></div><div id="sec2-tab2" class="tab-content "><p># 2.3 Separating the Components of a Mixture  <br>We have learnt that most of the natural substances are not chemically pure. Different methods of separation are used to get individual components from a mixture. Separation makes it possible to study and use the individual components of a mixture.  <br>Heterogeneous mixtures can be separated into their respective constituents by simple physical methods like handpicking, sieving, filtration that we use in our day-to-day life. Sometimes special techniques have to be used for the separation of the components of a mixture.</p></div><div id="sec2-tab3" class="tab-content "><p># 2.2 What is a Solution?  <br>A solution is a homogeneous mixture of two or more substances. You come across various types of solutions in your daily life. Lemonade, soda water etc. are all examples of solutions. Usually we think of a solution as a liquid that contains either a solid, liquid or a gas dissolved in it. But, we can also have solid solutions (alloys) and gaseous solutions (air).  <br>In a solution there is homogeneity at the particle level. For example, lemonade tastes the same throughout. This shows that particles of sugar or salt are evenly distributed in the solution.  <br>Alloys: Alloys are mixtures of two or more metals or a metal and a non-metal and cannot be separated into their components by physical methods. But still, an alloy is considered as a mixture because it shows the properties of its constituents and can have variable composition. For example, brass is a mixture of approximately 30% zinc and 70% copper.</p></div><div id="sec2-tab4" class="tab-content "><p># 2.2.2 What is a suspension?  <br>Non-homogeneous systems, like those obtained by group C in activity 2.2, in which solids are dispersed in liquids, are called suspensions. A suspension is a heterogeneous mixture in which the solute particles do not dissolve but remain suspended throughout the bulk of the medium. Particles of a suspension are visible to the naked eye.</p></div><div id="sec2-tab5" class="tab-content "><p># 2.1 What is a Mixture?  <br>Mixtures are constituted by more than one kind of pure form of matter. We know that dissolved sodium chloride can be separated from water by the physical process of evaporation.  <br>Activity ______________ 2.1  <br>- Let us divide the class into groups A, B, C and D.<br>- Group A takes a beaker containing 50 mL of water and one spatula full of copper sulphate powder. Group B takes 50 mL of water and two spatula full of copper sulphate powder in a beaker.<br>- Groups C and D can take different amounts of copper sulphate and potassium permanganate or common salt (sodium chloride) and mix the given components to form a mixture.<br>- Report the observations on the uniformity in colour and texture.  <br>Groups A and B have obtained a mixture which has a uniform composition throughout. Such mixtures are called homogeneous mixtures or solutions. Some other examples of such mixtures are: (i) salt dissolved in water and (ii) sugar.</p></div><div id="sec2-tab6" class="tab-content "><p># 1.4.2 EFFECT OF CHANGE OF PRESSURE  <br>We have already learnt that the difference in various states of matter is due to the difference in the distances between the constituent particles. What will happen when we start putting pressure and compress a gas?  <br>Thus, we can say that pressure and temperature determine the state of a substance, whether it will be solid, liquid or gas.</p></div><div id="sec2-tab7" class="tab-content "><p># Activity ______________ 1.8  <br>Take some water in a container, try cutting the surface of water with your fingers.  <br>Were you able to cut the surface of water? What could be the reason behind the surface of water remaining together?  <br>The above three activities (1.6, 1.7 and 1.8) suggest that particles of matter have force acting between them. This force keeps the particles together. The strength of this force of attraction varies from one kind of matter to another.</p></div></div>
+    </div>
+
+    <div class="section">
+        <h2><span class="icon">3</span> Positive Scores Only (Filtered)</h2>
+        <div class="tab-nav"><button class="tab-btn active" onclick="openTab(event, 'sec3-tab0')">Result 1 <span class='score'>Score: 5.750</span></button><button class="tab-btn " onclick="openTab(event, 'sec3-tab1')">Result 2 <span class='score'>Score: 3.870</span></button><button class="tab-btn " onclick="openTab(event, 'sec3-tab2')">Result 3 <span class='score'>Score: 1.939</span></button></div><div class="tab-container"><div id="sec3-tab0" class="tab-content active"><p>dissolved in water. Compare the colour of the solutions of the two groups. Though both the groups have obtained copper sulphate solution but the intensity of colour of the solutions is different. This shows that a homogeneous mixture can have a variable composition.  <br>Groups C and D have obtained mixtures, which contain physically distinct parts and have non-uniform compositions. Such mixtures are called heterogeneous mixtures. Mixtures of sodium chloride and iron filings, salt and sulphur, and oil and water are examples of heterogeneous mixtures.  <br>Now, we shall learn about solutions, suspensions and colloidal solutions in the following sections.</p></div><div id="sec3-tab1" class="tab-content "><p># Questions  <br>1. Differentiate between homogeneous and heterogeneous mixtures with examples.<br>2. How are sol, solution and suspension different from each other?<br>3. To make a saturated solution, 36 g of sodium chloride is dissolved in 100 g of water at 293 K. Find its concentration at this temperature.</p></div><div id="sec3-tab2" class="tab-content "><p># 2.3 Separating the Components of a Mixture  <br>We have learnt that most of the natural substances are not chemically pure. Different methods of separation are used to get individual components from a mixture. Separation makes it possible to study and use the individual components of a mixture.  <br>Heterogeneous mixtures can be separated into their respective constituents by simple physical methods like handpicking, sieving, filtration that we use in our day-to-day life. Sometimes special techniques have to be used for the separation of the components of a mixture.</p></div></div>
+    </div>
+</div>
+
+<script>
+function openTab(evt, tabId) {
+    var section = document.getElementById(tabId).closest('.section');
+    var tabContents = section.getElementsByClassName("tab-content");
+    var tabBtns = section.getElementsByClassName("tab-btn");
+    
+    for (var i = 0; i < tabContents.length; i++) {
+        tabContents[i].classList.remove("active");
+        tabBtns[i].classList.remove("active");
+    }
+    
+    document.getElementById(tabId).classList.add("active");
+    evt.currentTarget.classList.add("active");
+}
+</script>
+
+</body>
+</html>
