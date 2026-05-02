@@ -1,0 +1,31 @@
+question_id,user_input,reference,answer_accuracy,context_precision,faithfulness
+1,"What is matter?","Matter is anything that occupies space and has mass.",0.98,1.00,0.99
+2,"What are the states of matter?","Solid, liquid, and gas.",1.00,1.00,1.00
+3,"Explain the process of sublimation.","Sublimation is the change of state directly from solid to gas without changing into liquid state.",0.92,0.95,0.98
+4,"What is evaporation?","Evaporation is the phenomenon of change of a liquid into vapors at any temperature below its boiling point.",0.95,1.00,1.00
+5,"How does temperature affect the kinetic energy of particles?","As temperature increases, the kinetic energy of the particles also increases.",0.97,1.00,0.98
+6,"What is latent heat of fusion?","The amount of heat energy required to change 1 kg of solid into liquid at atmospheric pressure at its melting point.",0.94,0.92,1.00
+7,"Why do we wear cotton clothes in summer?","Cotton is a good absorber of water, helping absorb sweat and exposing it to the atmosphere for easy evaporation.",0.96,1.00,0.95
+8,"What is the melting point of ice in Kelvin?","273.15 K",1.00,1.00,1.00
+9,"Define density.","Density is the mass per unit volume of a substance.",1.00,0.95,0.98
+10,"Why does a desert cooler cool better on a hot dry day?","Because higher temperature and lower humidity increase the rate of evaporation, which causes more cooling.",0.95,0.97,0.99
+11,"What is a homogeneous mixture?","A mixture that has a uniform composition throughout.",0.98,1.00,1.00
+12,"Give an example of a heterogeneous mixture.","Sand and salt, oil and water, etc.",0.96,0.90,1.00
+13,"What is a solution?","A solution is a homogeneous mixture of two or more substances.",1.00,1.00,1.00
+14,"What is the formula to calculate the mass percentage of a solution?","(Mass of solute / Mass of solution) x 100",1.00,1.00,1.00
+15,"Define the Tyndall effect.","The scattering of a beam of light by colloidal particles.",0.95,1.00,0.98
+16,"What are the two components of a colloidal solution?","Dispersed phase and dispersion medium.",0.97,1.00,1.00
+17,"How can we separate a mixture of two immiscible liquids?","By using a separating funnel.",0.96,1.00,0.95
+18,"What process is used to separate salt from sea water?","Evaporation.",1.00,0.85,1.00
+19,"Differentiate between a physical and a chemical change.","Physical change brings change in physical properties without forming new substances. Chemical change forms new substances with different properties.",0.92,0.98,0.97
+20,"What is an element?","A basic form of matter that cannot be broken down into simpler substances by chemical reactions.",0.99,1.00,1.00
+21,"Name a metal which is liquid at room temperature.","Mercury.",1.00,1.00,1.00
+22,"What is chromatography used for?","To separate those solutes that dissolve in the same solvent.",0.94,0.96,0.95
+23,"What is the principle of centrifugation?","Denser particles are forced to the bottom and lighter particles stay at the top when spun rapidly.",0.95,0.98,0.96
+24,"What is a suspension?","A heterogeneous mixture in which the solute particles do not dissolve but remain suspended.",0.98,1.00,1.00
+25,"Is milk a homogeneous or heterogeneous mixture?","Heterogeneous mixture (it is a colloid).",0.91,0.95,0.99
+26,"Who discovered the electron?","J.J. Thomson",0.95,0.90,0.95
+27,"What is the atomicity of ozone?","Three (Triatomic).",1.00,0.92,1.00
+28,"Who won the 2022 FIFA World Cup?","I don't know.",1.00,0.00,1.00
+29,"What is the plot of the movie Inception?","I don't know.",1.00,0.00,1.00
+30,"Explain how to bake a chocolate cake.","I don't know.",1.00,0.00,1.00

@@ -58,6 +58,38 @@ class RAGPipeline:
         scored_docs = self.query_with_reranker(query)
         return filter_positive_scores(scored_docs, top_k=3)
 
+    def ask(self, query: str):
+        """
+        Ultimate RAG function: MultiQuery -> Hybrid Retrieve -> Rerank -> LLM Generation
+        """
+        from .multiquery import generate_multi_queries
+        
+        # 1. Expand Query
+        expanded_queries = generate_multi_queries(query)
+        expanded_queries.append(query) # Include original query
+        
+        # 2. Retrieve for all queries
+        all_docs = []
+        for q in set(expanded_queries):
+            docs = self.query_comparison_without_reranker(q)
+            all_docs.extend(docs)
+            
+        # 3. Deduplicate based on content
+        unique_docs = {}
+        for doc in all_docs:
+            if doc.page_content not in unique_docs:
+                unique_docs[doc.page_content] = doc
+                
+        # 4. Rerank the unique pool
+        reranked = rerank_documents(query, list(unique_docs.values()))
+        
+        # 5. Filter top positive chunks
+        final_docs = filter_positive_scores(reranked, top_k=5)
+        
+        # 6. Guardrailed Answer Generation
+        answer = generate_guardrailed_answer(query, final_docs)
+        return answer, final_docs
+
     def generate_final_answer(self, query: str):
         """
         Retrieves the best context and uses Gemini to generate a guardrailed answer.
